@@ -3,12 +3,12 @@ package com.alexandrecosati.game;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.nio.Buffer;
 
 public class GamePanel extends JPanel implements Runnable {
 
     public static int width;
     public static int height;
+    public static int tileSize;
 
     private Thread thread;
     private boolean running = false;
@@ -16,11 +16,20 @@ public class GamePanel extends JPanel implements Runnable {
     private BufferedImage img;
     private Graphics2D g;
 
-    public GamePanel(int width, int height) {
+    KeyHandler keyH = new KeyHandler();
+
+    // Player's default position
+    int playerX = 100;
+    int playerY = 100;
+    int playerSpeed = 4;
+
+    public GamePanel(int width, int height, int tileSize) {
         this.width = width;
         this.height = height;
+        this.tileSize = tileSize;
         setPreferredSize(new Dimension(width, height));
         setFocusable(true);
+        this.addKeyListener(keyH);
         requestFocus();
     }
 
@@ -64,7 +73,8 @@ public class GamePanel extends JPanel implements Runnable {
             int updateCount = 0;
             while(((now - lastUpdateTime) > TBU) && (updateCount < MUBR)) {
                 update();
-                input();
+                //input();
+                repaint();
                 lastUpdateTime += TBU;
                 updateCount++;
             }
@@ -73,9 +83,9 @@ public class GamePanel extends JPanel implements Runnable {
                 lastUpdateTime = now - TBU;
             }
 
-            input();
-            render();
-            draw();
+            //input();
+            //render();
+            //draw();
             lastRenderedTime = now;
             frameCount++;
 
@@ -108,6 +118,19 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void update() {
 
+        if (keyH.upPressed == true) {
+            playerY -= playerSpeed;
+        }
+        if (keyH.downPressed == true) {
+            playerY += playerSpeed;
+        }
+        if (keyH.leftPressed == true) {
+            playerX -= playerSpeed;
+        }
+        if (keyH.rightPressed == true) {
+            playerX += playerSpeed;
+        }
+
     }
 
     public void render() {
@@ -121,6 +144,13 @@ public class GamePanel extends JPanel implements Runnable {
         Graphics g2 = (Graphics) this.getGraphics();
         g2.drawImage(img, 0, 0, width, height, null);
         g2.dispose();
+    }
+
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setColor(Color.white);
+        g2.fillRect(playerX, playerY, tileSize, tileSize);
     }
 
     public void input() {

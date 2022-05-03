@@ -17,7 +17,7 @@ public class Window extends JFrame {
     public Window() {
         setTitle("My Game");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setContentPane(new GamePanel(screenWidth, screenHeight));
+        setContentPane(new GamePanel(screenWidth, screenHeight, tileSize));
         pack();
         setLocationRelativeTo(null);
         setVisible(true);

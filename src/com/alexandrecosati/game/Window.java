@@ -8,6 +8,7 @@ public class Window extends JFrame {
     final int originalTileSize = 16;
     final int scale = 3;
 
+    final int FPS = 60;
     final int tileSize = originalTileSize * scale;
     final int maxScreenCol = 16;
     final int maxScreenRol = 12;

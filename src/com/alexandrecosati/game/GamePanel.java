@@ -1,5 +1,7 @@
 package com.alexandrecosati.game;
 
+import com.alexandrecosati.game.entity.Player;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -10,7 +12,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public static int width;
     public static int height;
-    public static int tileSize;
+    private static int tileSize;
 
     private Thread thread;
     private boolean running = false;
@@ -20,10 +22,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     KeyHandler keyH = new KeyHandler();
 
-    // Player's default position
-    int playerX = 100;
-    int playerY = 100;
-    int playerSpeed = 4;
+    Player player = new Player(this, keyH);
 
     public GamePanel(int width, int height, int tileSize) {
         this.width = width;
@@ -77,18 +76,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void update() {
 
-        if (keyH.upPressed == true) {
-            playerY -= playerSpeed;
-        }
-        if (keyH.downPressed == true) {
-            playerY += playerSpeed;
-        }
-        if (keyH.leftPressed == true) {
-            playerX -= playerSpeed;
-        }
-        if (keyH.rightPressed == true) {
-            playerX += playerSpeed;
-        }
+        player.update();
 
     }
 
@@ -108,12 +96,16 @@ public class GamePanel extends JPanel implements Runnable {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-        g2.setColor(Color.white);
-        g2.fillRect(playerX, playerY, tileSize, tileSize);
+        player.draw(g2);
+        g2.dispose();
     }
 
     public void input() {
 
+    }
+
+    public int getTileSize() {
+        return this.tileSize;
     }
 
 }

@@ -12,7 +12,8 @@ public class Entity {
     private String spritePath;
     private String spriteExtension;
 
-    public Map<Direction, BufferedImage> sprites;
+    //public Map<Direction, BufferedImage> sprites;
+    public Map<Direction, Map<Boolean, BufferedImage>> sprites;
     private Direction direction;
 
     public void setSpritePath(String spritePath) {

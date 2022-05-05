@@ -72,8 +72,6 @@ public class GamePanel extends JPanel implements Runnable {
 
     }
 
-    private int x = 0;
-
     public void update() {
 
         player.update();
